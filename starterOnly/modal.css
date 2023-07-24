@@ -184,22 +184,28 @@ main {
 }
 
 .modal-body {
+  display: flex;
+  align-items: center;
   padding: 15px 8%;
   margin: 15px auto;
 }
 
 label {
   font-family: var(--font-default);
-  font-size: 17px;
+  /* font-size: 17px; */
+  font-size: 1.063rem;
   font-weight: normal;
   display: inline-block;
-  margin-bottom: 11px;
+  margin-top: 11px;
+  /* margin-bottom: 1px; */
 }
+
 input {
   padding: 8px;
   border: 0.8px solid #ccc;
   outline: none;
 }
+
 .text-control {
   margin: 0;
   padding: 8px;
@@ -208,6 +214,7 @@ input {
   font-size: 20px;
   height: 48px;
 }
+
 .formData[data-error]::after {
   content: attr(data-error);
   font-size: 0.4em;
@@ -220,9 +227,11 @@ input {
   opacity: 0;
   transition: 0.3s;
 }
+
 .formData[data-error-visible="true"]::after {
   opacity: 1;
 }
+
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
@@ -329,7 +338,7 @@ input[data-error]::after {
   border-radius: 7px;
   font-size: 1rem;
   padding: 12px 82px;
-  color: #fff;
+  color: #ffffff;
   cursor: pointer;
   border: 0;
 }
@@ -527,3 +536,27 @@ footer {
   }
 }
 
+.errorField {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  color: #fe142f;
+  font-size: 0.8rem;
+  padding: 3px 0px 0px 0px;
+}
+
+.errorBorder {
+  border: 2px solid #fe142f;
+}
+
+.confirmation {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  right: 0px;
+  font-size: 2.25rem;
+}
