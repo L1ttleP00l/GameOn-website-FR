@@ -11,7 +11,11 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
+// Constante qui récupère le formulaire nommé "reserve"
+const formulaire = document.forms.reserve
+// Constante qui liste l'ensemble des classes ".text-control"
 const textInput = document.querySelectorAll(".text-control");
+// Constante qui liste l'ensemble des classes ".checkbox-input"
 const checkboxInput = document.querySelectorAll(".checkbox-input");
 
 // launch modal event
@@ -23,11 +27,12 @@ function launchModal() {
 }
 
 function testPrenom(formulaire) {
-  let prenom = formulaire.first;
+  let prenom = formulaire.first.value.trim();
+  // console.log(prenom,prenom.value.trim())
   let prenomRegexp = /[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{3,20}/g;
   let erreur = "Veuillez renseigner votre prénom."
 
-  if (!prenom.value.match(prenomRegexp))
+  if (!prenom.match(prenomRegexp))
   {
     document.getElementById("error-first").innerText = erreur;
     document.getElementById("error-first").style.removeProperty("display");
@@ -41,11 +46,11 @@ function testPrenom(formulaire) {
 }
 
 function testNom(formulaire) {
-  let nom = formulaire.last;
+  let nom = formulaire.last.value.trim();
   let nomRegexp = /[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{3,20}/g;
   let erreur = "Veuillez renseigner votre nom."
 
-  if (!nom.value.match(nomRegexp))
+  if (!nom.match(nomRegexp))
   {
     document.getElementById("error-last").innerText = erreur
     document.getElementById("error-last").style.removeProperty("display");
@@ -59,11 +64,11 @@ function testNom(formulaire) {
 }
 
 function testEmail(formulaire) {
-  let email = formulaire.email;
+  let email = formulaire.email.value.trim();
   let emailRegexp = /[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)/g;
   let erreur = "Veuillez renseigner votre adresse email."
 
-  if (!email.value.match(emailRegexp))
+  if (!email.match(emailRegexp))
   {
     document.getElementById("error-email").innerText = erreur
     document.getElementById("error-email").style.removeProperty("display");
@@ -115,19 +120,20 @@ function testNombreTournois(formulaire) {
 function testLieuTournoi(formulaire) {
   let lieuTournoi = formulaire.querySelector('input[name="location"]:checked');
   let erreur = "Veuillez saisir un lieu."
+  const checkboxes = document.getElementsByClassName("checkbox-icon")
 
   if (lieuTournoi == null)
   {
     document.getElementById("error-location").innerText = erreur
     document.getElementById("error-location").style.removeProperty("display");
-    for (let i=0; i<6; i++) {
-    document.getElementsByClassName("checkbox-icon")[i].style.borderColor = "#fe142f";
+    for (let checkbox of checkboxes) {
+      checkbox.style.borderColor = "#fe142f";
     }
     return false;
   } else {
     document.getElementById("error-location").style.display = "none";
-    for (let i=0; i<6; i++) {
-    document.getElementsByClassName("checkbox-icon")[i].style.borderColor = '';
+    for (let checkbox of checkboxes) {
+      checkbox.style.borderColor = "";
     }
     return true;
   }
@@ -148,32 +154,17 @@ function testConditions(formulaire) {
   }
 }
 
-// Déroule les différentes fonctions qui servent de cas de tests
-function testFormulaire ()
-{
-  testPrenom(formulaire)
-  testNom(formulaire)
-  testEmail(formulaire)
-  testDateNaissance(formulaire)
-  testNombreTournois(formulaire)
-  testLieuTournoi(formulaire)
-  testConditions(formulaire)
-}
-
 // Vérifie que l'ensemble des champs soit correctement renseigné
 function validationFormulaire ()
 {
-  if(
-  testPrenom(formulaire)
-  && testNom(formulaire)
-  && testEmail(formulaire)
-  && testDateNaissance(formulaire)
-  && testNombreTournois(formulaire)
-  && testLieuTournoi(formulaire)
-  && testConditions(formulaire)
-  === true) {
-    return true
-  }
+  let result = testPrenom(formulaire)
+  result = testNom(formulaire) && result
+  result = testEmail(formulaire) && result
+  result = testDateNaissance(formulaire) && result
+  result = testNombreTournois(formulaire) && result
+  result = testLieuTournoi(formulaire) && result
+  result = testConditions(formulaire) && result
+  return result
 }
 
 // Réinitialise le formulaire
@@ -191,24 +182,26 @@ function resetFormulaire ()
 }
 
 
-const formulaire = document.forms.reserve
-
+// Ecoute l'appui sur le bouton de validation du formulaire
 formulaire.addEventListener("submit", (event) => {
+// Bloque l'action par défaut lors de l'appui sur le bouton
   event.preventDefault()
+// Contrôle que l'appui sur le bouton est effectif
   console.log("Envoyer")
-  testFormulaire()
+// Condition des action à réaliser selon le renseignement correct du formulaire ou non
   if (validationFormulaire(formulaire) === true) {
+    const btnclose = document.getElementById("validation")
     // Change le texte du bouton de validation
-    document.getElementById("validation").value = "Fermer";
-    // Pour chaque .formData, les rend "invisible"
+    btnclose.value = "Fermer";
+    // Ferme le formulaire
+    btnclose.addEventListener ("click", fermerModal);
+    // Rend invisible chaque .formData
     Array.from(formData).forEach(function(valeur){
       valeur.style.visibility = "hidden";
     });
     // Fait apparaître le texte de remerciement pour l'inscription
     document.getElementById("confirmation").style.removeProperty("display")
     resetFormulaire()
-  // } else {
-  //   console.log("KO")
   }
 });
 
