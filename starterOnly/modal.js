@@ -25,7 +25,7 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
   modalbg.style.display = "block";
 }
-
+// Fonctions testant les différents champs du formulaire
 function testPrenom(formulaire) {
   let prenom = formulaire.first.value.trim();
   // console.log(prenom,prenom.value.trim())
