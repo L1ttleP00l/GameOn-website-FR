@@ -1,5 +1,7 @@
+// Fait apparaître le menu de navigation lorsque l'on clique sur le bouton "burger" en mode smartphone
 function editNav() {
-  var x = document.getElementById("myTopnav");
+  // var x = document.getElementById("myTopnav");
+  let x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
     x.className += " responsive";
   } else {
@@ -8,8 +10,11 @@ function editNav() {
 }
 
 // DOM Elements
+// Constante qui récupère le fond translucide à l'ouverture du formulaire
 const modalbg = document.querySelector(".bground");
+// Constante qui récupère le bouton d'ouverture du formulaire
 const modalBtn = document.querySelectorAll(".modal-btn");
+// Constante qui récupère l'ensemble des zones à renseigner du formulaire
 const formData = document.querySelectorAll(".formData");
 // Constante qui récupère le formulaire nommé "reserve"
 const formulaire = document.forms.reserve
@@ -19,9 +24,11 @@ const textInput = document.querySelectorAll(".text-control");
 const checkboxInput = document.querySelectorAll(".checkbox-input");
 
 // launch modal event
+// Ecoute le bouton d'ouverture du formulaire. Si celui-ci est cliqué alors il exécute la fonction "launchModal"
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // launch modal form
+// Fonction qui affiche le formulaire via un display = "block"
 function launchModal() {
   modalbg.style.display = "block";
 }
@@ -177,7 +184,7 @@ function resetFormulaire ()
   // Purge les boutons radio
   Array.from(checkboxInput).forEach(function(valeur){
     valeur.checked = false
-    console.log(valeur.value)
+    // console.log(valeur.value)
   });
 }
 
@@ -190,6 +197,7 @@ formulaire.addEventListener("submit", (event) => {
   console.log("Envoyer")
 // Condition des action à réaliser selon le renseignement correct du formulaire ou non
   if (validationFormulaire(formulaire) === true) {
+    // Constante qui récupère l'id du bouton de validation
     const btnclose = document.getElementById("validation")
     // Change le texte du bouton de validation
     btnclose.value = "Fermer";
@@ -205,11 +213,13 @@ formulaire.addEventListener("submit", (event) => {
   }
 });
 
-// Fermer modal via bouton
-const boutonFermeture = document.querySelectorAll(".close");
+// Constante qui récupère le bouton de fermeture du formulaire
+const boutonFermeture = document.querySelector(".close");
 
+// Fonction qui cache le formulaire via un display = "none"
 function fermerModal() {
   modalbg.style.display = "none";
 }
 
-boutonFermeture[0].addEventListener ("click", fermerModal);
+// Ecoute le bouton de fermeture du formulaire. Si celui-ci est cliqué alors il exécute la fonction "FermerModal"
+boutonFermeture.addEventListener ("click", fermerModal);
