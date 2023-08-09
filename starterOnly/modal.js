@@ -101,7 +101,7 @@ function testDateNaissance(formulaire) {
 
 function testNombreTournois(formulaire) {
   let nombreTournois = formulaire.quantity;
-  let nombreTournoisRegexp = /[0-9]{1,3}/;
+  let nombreTournoisRegexp = /^[0-9]{1,3}/;
   let erreur = "Veuillez saisir une valeur."
 
   if (!nombreTournois.value.match(nombreTournoisRegexp))
