@@ -34,20 +34,31 @@ function launchModal() {
 }
 // Fonctions testant les différents champs du formulaire
 function testPrenom(formulaire) {
+  // Variable qui récupère la valeur du champs prénom en retirant les blancs en début et fin de chaîne
   let prenom = formulaire.first.value.trim();
   // console.log(prenom,prenom.value.trim())
+  // Variable qui contient l'expression régulière à utiliser
   let prenomRegexp = /[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{3,20}/g;
+  // Variable du message d'erreur à afficher
   let erreur = "Veuillez renseigner votre prénom."
 
+  // Si la valeur du prénom ne respecte pas l'expression régulière
   if (!prenom.match(prenomRegexp))
   {
+    // Récupère l'id du message d'erreur et on lui insère le texte contenu dans la variable "erreur"
     document.getElementById("error-first").innerText = erreur;
+    // Retire la propriété "display" du HTML pour rendre visible le message d'erreur
     document.getElementById("error-first").style.removeProperty("display");
+    // Récupère l'id first correspondant au champ à renseigner et on lui applique la classe CSS "errorBorder" afin de faire apparaître le contour rouge
     document.getElementById("first").classList.add("errorBorder");
+    // Fin d'exécution et retourne la valeur "false"
     return false;
   } else {
+    // Laisse ou rend de nouveau invisible le message d'erreur
     document.getElementById("error-first").style.display="none";
+    // Laisse ou retire de nouveau le contour rouge autour du champs à renseigner
     document.getElementById("first").classList.remove("errorBorder");
+    // Fin d'exécution et retourne la valeur "true"
     return true
   }
 }
@@ -164,7 +175,9 @@ function testConditions(formulaire) {
 // Vérifie que l'ensemble des champs soit correctement renseigné
 function validationFormulaire ()
 {
+  // Variable "result" à pour valeur ce que retourne la fonction "testPrenom"
   let result = testPrenom(formulaire)
+  // Variable "result" à pour valeur ce que retourne la fonction "testNom" && la précédente valeur qui doivent être "true"
   result = testNom(formulaire) && result
   result = testEmail(formulaire) && result
   result = testDateNaissance(formulaire) && result
